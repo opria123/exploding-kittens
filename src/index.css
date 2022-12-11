@@ -69,6 +69,10 @@ code {
                                   supported by Chrome, Edge, Opera and Firefox */
 }
 
+.card-container:hover {
+  z-index: 100;
+}
+
 .card-container {
   perspective: 800px;
   width: var(--cardWidth);

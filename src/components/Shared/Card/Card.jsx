@@ -31,6 +31,10 @@ const Root = styled.div`
     backface-visibility: hidden;
   }
 
+  .back {
+    background: radial-gradient(#B01E23, #650B0B) !important;
+  }
+
   .front {
     transform: translateZ(1px);
     font-family: sans-serif;
@@ -210,9 +214,7 @@ export default function Card({
         y: 0,
       }}
       whileHover={
-        playable
-          ? { y: -40, transition: { duration: 0.3 } }
-          : { y: 0, transition: { duration: 0.3 } }
+        { y: -40, transition: { duration: 0.3 } }
       }
       animate={{ rotateY: rotationY, y: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
@@ -223,7 +225,7 @@ export default function Card({
     >
       <div className="front">{getFrontContent()}</div>
       <div className="back">
-        <Image src={`assets/images/cards/misc/cardback.png`} ratio={590 / 418} />
+        <Image src={`assets/images/exploding-kittens-logo.png`} ratio={590 / 418} />
       </div>
     </Root>
   );
