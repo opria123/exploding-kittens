@@ -16,7 +16,6 @@ export default function PlayerStack() {
     currentPlayer: state.game.currentPlayer,
   }));
   const cards = player?.cards || [];
-
   return (
     <Root>
       <CardsRow

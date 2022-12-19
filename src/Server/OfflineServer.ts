@@ -1,7 +1,7 @@
 import { GameServer, Player, Card } from "../utils/interfaces";
 import { ServerInterface } from "./ServerInterface";
-import { socket } from "../api/socket";
 import BotsServer from "../BotsServer/BotsServer";
+import socket from "../api/socket";
 
 export class OfflineServer implements ServerInterface {
   player?: Player;

@@ -70,6 +70,7 @@ export default class BotsServer extends EventsObject {
         id: playerId,
         cards: [],
         isBot: true,
+        isHost: false
       });
     }
     this.fireEvent("players-changed", this.players);

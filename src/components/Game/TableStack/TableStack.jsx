@@ -27,8 +27,8 @@ export default function TableStack() {
           <Card
             layoutId={card.layoutId}
             color={card.color}
-            digit={card.digit}
-            action={card.action}
+            name={card.name}
+            type={card.type}
             width={200}
             flip={card.flip}
             rotationY={card.rotationY}

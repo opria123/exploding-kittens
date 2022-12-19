@@ -1,13 +1,13 @@
+import socket from "../api/socket";
 import { GameServer, Player, Card } from "../utils/interfaces";
 import { ServerInterface } from "./ServerInterface";
-import { socket } from "../api/socket";
 
 export class OnlineServer implements ServerInterface {
   player?: Player;
 
   getServers(): Promise<GameServer[]> {
     return new Promise((res, rej) => {
-      socket.emit("get-servers", null, (err: any, servers: GameServer[]) => {
+      socket.emit("getServers", (err: any, servers: GameServer[]) => {
         if (err) return rej(err);
         console.log(servers);
 
@@ -17,8 +17,10 @@ export class OnlineServer implements ServerInterface {
   }
   getServerPlayers(): Promise<Player[]> {
     return new Promise((res, rej) => {
-      socket.emit("get-server-players", null, (err: any, players: Player[]) => {
-        if (err) return rej(err);
+      socket.emit("getServerPlayers", (err: any, players: Player[]) => {
+        if (err) {
+          return rej(err);
+        }
         res(players);
       });
     });
@@ -26,10 +28,12 @@ export class OnlineServer implements ServerInterface {
   createServer(serverName: string, serverPassword?: string): Promise<string> {
     return new Promise((res, rej) => {
       socket.emit(
-        "create-server",
-        { serverName, serverPassword, player: this.getPlayer() },
+        "createServer",
+        { serverName: serverName, serverPassword: serverPassword, player: this.getPlayer() },
         (err: any, playerId: string) => {
-          if (err) return rej(err);
+          if (err) {
+            return rej(err);
+          }
           res(playerId);
         }
       );
@@ -39,7 +43,7 @@ export class OnlineServer implements ServerInterface {
   joinServer(serverId: string, serverPassword?: string): Promise<string> {
     return new Promise((res, rej) => {
       socket.emit(
-        "join-server",
+        "joinServer",
         { serverId, serverPassword, player: this.getPlayer() },
         (err: any, playerId: string) => {
           if (err) {
@@ -54,10 +58,11 @@ export class OnlineServer implements ServerInterface {
     });
   }
   emitReady(): void {
-    socket.emit("start-game");
+    debugger;
+    socket.emit("startGame", () => { });
   }
   leaveServer(): void {
-    socket.emit("leave-server");
+    socket.emit("leaveServer");
     this.removeAllListeners();
   }
   move(draw: boolean | null, cardId: string): Promise<void> {
@@ -69,15 +74,15 @@ export class OnlineServer implements ServerInterface {
     });
   }
   onPlayersUpdated(cb: (players: Player[]) => void): () => void {
-    socket.on("players-changed", cb);
-    return () => socket.off("players-changed", cb);
+    socket.on("playersChanged", cb);
+    return () => socket.off("playersChanged", cb);
   }
 
   onGameInit(
     cb: (data: { players: Player[]; cards: Card[] }) => void
   ): () => void {
-    socket.on("init-game", cb);
-    return () => socket.off("init-game", cb);
+    socket.on("initGame", cb);
+    return () => socket.off("initGame", cb);
   }
   onMove(
     cb: (data: {
@@ -92,13 +97,13 @@ export class OnlineServer implements ServerInterface {
   }
 
   onPlayerLeft(cb: () => void): () => void {
-    socket.on("player-left", cb);
-    return () => socket.off("player-left", cb);
+    socket.on("playerLeft", cb);
+    return () => socket.off("playerLeft", cb);
   }
 
   onFinishGame(cb: (playersOrdered: Player[]) => void): () => void {
-    socket.on("finished-game", cb);
-    return () => socket.off("finished-game", cb);
+    socket.on("finishedGame", cb);
+    return () => socket.off("finishedGame", cb);
   }
 
   removeAllListeners() {
@@ -106,7 +111,9 @@ export class OnlineServer implements ServerInterface {
   }
 
   getPlayer(): Player {
-    if (this.player) return this.player;
+    if (this.player) {
+      return this.player;
+    }
     this.player = {} as Player;
     this.player.name = localStorage.getItem("playerName") as string;
     this.player.img = localStorage.getItem("playerImg") as string;

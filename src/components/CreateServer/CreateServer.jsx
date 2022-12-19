@@ -88,8 +88,8 @@ const CreateServer = () => {
         <Grid item xs={12} md={10} lg={8}>
           {((isPrivate && serverName && serverPassword) ||
             (!isPrivate && serverName)) && (
-            <Button onClick={handleCreateServer}>Creat Server</Button>
-          )}
+              <Button onClick={handleCreateServer}>Creat Server</Button>
+            )}
         </Grid>
       </Grid>
     </Paper>

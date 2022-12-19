@@ -3,6 +3,7 @@ import Paper from "../Shared/Paper/Paper";
 import Avatar from "../Shared/Avatar/Avatar";
 import Typography from "../Shared/Typography/Typography";
 import Grid from "@mui/material/Grid";
+import Button from "../Shared/Button/Button";
 import Stack from "@mui/material/Stack";
 import Loding from "./Loding";
 import styled from "styled-components";
@@ -27,12 +28,17 @@ const Lobby = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const handleStartGame = async () => {
+    API.emitReady();
+  };
+
   useEffect(() => {
     if (!inLobby) return;
 
     let timeout = null;
     let unsubInit = null;
     (async () => {
+      const player = await API.getPlayer();
       const serverPlayers = await API.getServerPlayers();
       setPlayers(serverPlayers);
       API.onPlayersUpdated((players) => setPlayers(players));
@@ -49,15 +55,16 @@ const Lobby = () => {
     };
   }, [dispatch, navigate, inLobby]);
 
-  if (location.pathname === "/waiting-lobby" && !inLobby)
+  if (location.pathname === "/waiting-lobby" && !inLobby) {
     return <Navigate replace to="/main-menu" />;
+  }
 
   return (
     <Paper>
       <Grid container justifyContent="center" alignItems="center" spacing={2}>
         <Grid item xs={8}>
           <Typography>
-            Waiting for Other Players To Join
+            Waiting for host to start the game
             <Loding />
           </Typography>
         </Grid>
@@ -89,6 +96,9 @@ const Lobby = () => {
               </Stack>
             );
           })}
+        </Grid>
+        <Grid item xs={12} md={10} lg={8}>
+          <Button onClick={handleStartGame}>Start Game</Button>
         </Grid>
       </Grid>
     </Paper>

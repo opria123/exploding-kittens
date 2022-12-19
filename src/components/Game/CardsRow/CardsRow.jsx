@@ -22,6 +22,7 @@ const Root = styled.div`
 `;
 
 export default function CardsRow({ cards, cardProps, highlight }) {
+  console.log(cards);
   return (
     <Root layout cardsCnt={cards.length} highlight={highlight}>
       {cards.map((card) => (
@@ -30,8 +31,8 @@ export default function CardsRow({ cards, cardProps, highlight }) {
             id={card.id}
             layoutId={card.layoutId}
             color={card.color}
-            digit={card.digit}
-            action={card.action}
+            name={card.name}
+            type={card.type}
             width={200}
             flip={card.flip}
             rotationY={card.rotationY}

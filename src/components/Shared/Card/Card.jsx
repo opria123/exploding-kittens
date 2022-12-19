@@ -137,8 +137,8 @@ const Root = styled.div`
 export default function Card({
   id = "",
   color = "",
-  digit,
-  action = "",
+  name = "",
+  type = "",
   flip = false,
   rotationY = 180,
   layoutId,
@@ -151,51 +151,9 @@ export default function Card({
   };
 
   const getFrontContent = () => {
-    if (color === "black" && action === "wild")
-      return <Image src={`assets/images/cards/back-hair-no-bg.png`} ratio={590 / 418} />;
-
-    if (color === "black")
-      return (
-        <>
-          <Image src={`assets/images/front-${color}.png`} ratio={590 / 418} />
-          <img src="assets/images/draw4.png" className="card-icon" alt="" />
-          <img
-            className="icon-small icon-tl"
-            src={`assets/images/${action}-blank.png`}
-            alt=""
-          />
-          <img
-            className="icon-small icon-br"
-            src={`assets/images/${action}-blank.png`}
-            alt=""
-          />
-        </>
-      );
-
-    if (action)
-      return (
-        <>
-          <Image src={`assets/images/front-${color}.png`} ratio={590 / 418} />
-          <img
-            src={`assets/images/${action}-${color}.png`}
-            className="card-icon"
-            alt=""
-          />
-          <img
-            className="icon-small icon-tl"
-            src={`assets/images/${action}-blank.png`}
-            alt=""
-          />
-          <img
-            className="icon-small icon-br"
-            src={`assets/images/${action}-blank.png`}
-            alt=""
-          />
-        </>
-      );
     return (
       <>
-        <Image src={`assets/images/cards/attack/back-hair-no-bg.png`} ratio={590 / 418} />
+        <Image src={`assets/images/cards/${type}/${name}.png`} ratio={590 / 418} />
         {/* <p className="value">{digit}</p> */}
         {/* <p className="value-small value-tl">{digit}</p> */}
         {/* <p className="value-small value-br">{digit}</p> */}

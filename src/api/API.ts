@@ -2,20 +2,24 @@ import { OfflineServer } from "../Server/OfflineServer";
 import { OnlineServer } from "../Server/OnlineServer";
 import { ServerInterface } from "../Server/ServerInterface";
 import { Player, GameServer, Card } from "../utils/interfaces";
-import { socket } from "./socket";
+import socket from "./socket";
 
 export class _API implements ServerInterface {
-  isOnline = false;
+  isOnline = true;
   _server: ServerInterface;
   player?: Player;
 
   constructor() {
-    if (this.isOnline) this._server = new OnlineServer();
-    else this._server = new OfflineServer();
-
+    this._server = new OfflineServer();
     socket.on("connect", () => {
-      this.setOnlineMode(socket.connected);
+      this.setOnlineMode(true);
+      this._server = new OnlineServer();
     });
+
+    socket.on("connect_error", (err) => {
+      console.log(`connect_error due to ${err.message}`);
+    });
+
   }
 
   setOnlineMode(isOnline: boolean) {
@@ -23,8 +27,11 @@ export class _API implements ServerInterface {
   }
 
   playOnline(isOnline: boolean) {
-    if (isOnline) this._server = new OnlineServer();
-    else this._server = new OfflineServer();
+    if (isOnline)  {
+      this._server = new OnlineServer();
+    } else {
+      this._server = new OfflineServer();
+    }
   }
 
   getServers(): Promise<GameServer[]> {

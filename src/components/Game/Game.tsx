@@ -28,7 +28,7 @@ export default function Game() {
 
   useEffect(() => {
     const timeoutReady = setTimeout(() => {
-      API.emitReady()
+      // API.emitReady()
     }, 2000)
     API.onMove(({ card, draw, cardsToDraw, nxtPlayer }) => {
 

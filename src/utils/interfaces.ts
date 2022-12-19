@@ -4,6 +4,7 @@ export interface Player {
   img: string;
   cards: Card[];
   isBot?: boolean;
+  isHost: boolean;
 }
 
 export interface Card {
